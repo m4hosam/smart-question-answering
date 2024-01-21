@@ -43,10 +43,10 @@ export default function Home() {
         <Button className="mt-9 w-48">Submit</Button>
       </section>
       <Separator className="ml-auto mr-auto w-[85%]" />
-      <section className="flex flex-col items-center justify-center m-5 px-9">
+      <section className="flex flex-col items-center justify-center px-5 mb-9">
         <h2 className="m-0 text-xl font-semibold my-9">Questions</h2>
         <QuestionCard
-          question="Orhan Bey Döneminde sinirlarin Anadolu ve Rumelide genislemesinin asagidakilerden hangisi üzerinde etkili oldugu savunulamaz? A) Baskentin degismesi B) Bizans in toprak kaybetmesi  C) Veraset anlayisinin degistirilmesi D) Yaya ve Müsellem ordusunun kurulmasi 9 E) Anadolu Türk birligini saglama çalismalarinin baslama- SI"
+          question="Yaslari birbirinden farkli üç emekli arkadasin ve kilolari asagidaki tabloda verilmistir  Kilo(kg) Ali a Bülent Can C a Bu üç arkadasin en yaslisi Ali ve en genci Candir  Buna gÖre  bu uç arkadasin agirligina göre en hafif - ten en agira dogru siralanisi asagidakilerden hangi - sidir? A) Bülent  Can  Ali B) Bülent  Ali) Can C) Can  Bülentp Ali D) Can  Alip Bülent E) Bülents Can yaslari Yas Alis"
           answer="B"
           category="Math"
         />
