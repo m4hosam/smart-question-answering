@@ -46,9 +46,9 @@ export default function Home() {
       <section className="flex flex-col items-center justify-center px-5 mb-9">
         <h2 className="m-0 text-xl font-semibold my-9">Questions</h2>
         <QuestionCard
-          question="Yaslari birbirinden farkli üç emekli arkadasin ve kilolari asagidaki tabloda verilmistir  Kilo(kg) Ali a Bülent Can C a Bu üç arkadasin en yaslisi Ali ve en genci Candir  Buna gÖre  bu uç arkadasin agirligina göre en hafif - ten en agira dogru siralanisi asagidakilerden hangi - sidir? A) Bülent  Can  Ali B) Bülent  Ali) Can C) Can  Bülentp Ali D) Can  Alip Bülent E) Bülents Can yaslari Yas Alis"
+          question="Üç basamakli bir dogal sayinin basamagindaki rakama diger rakamlarin çarpimi eklendiginde elde edi- len toplama 0 sayinin derinligi denir  Örneks 325 sayisinin derinligi 3 + 25 = 13 tür  Uç basamakli abc dogal sayisi Ile üç basamakli cab dogal sayisinin derinlikleri esit olduguna göre  abc dogal sayisi asagidakilerden olabilir? A) 123 B) 234 C) 309 D) 415 E) 732 yüzler hangisi"
           answer="B"
-          category="Math"
+          category="Matematik"
         />
       </section>
     </main>
