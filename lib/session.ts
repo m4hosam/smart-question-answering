@@ -72,58 +72,12 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      /* Step 1: update the token based on the user object */
-      if (token?.email) {
-        const data = await getUser(token?.email);
-        console.log("jwt user: ", user);
-        token = {
-          id: data.id,
-          email: data.email,
-          role: data?.role,
-        };
-      }
-      console.log("tokein in jwt", token);
-      return token;
+      // combine user data from DB with token data
+      return { ...token, ...user };
     },
-    async session({ session }) {
-      const email = session?.user?.email as string;
-
-      try {
-        // const data = await getUser(email);
-        // // console.log("data in session: ", data)
-        // // Here i changed the name of the user to the id of the user
-        // const newSession = {
-        //   ...session,
-        //   user: {
-        //     ...session.user,
-        //     id: data.id,
-        //     name: data.name,
-        //     email: data.email,
-        //     role: data.role,
-        //   },
-        // };
-
-        return session;
-      } catch (error: any) {
-        // console.error("Error retrieving user data: ", error.message);
-        return session;
-      }
-    },
-    async signIn({ user }: { user: AdapterUser | User }) {
-      try {
-        // console.log("User signin: ", user)
-        // const userExists = await getUser(user?.email as string)
-        // console.log("userExists session: ", userExists)
-
-        // if (!userExists) {
-        //     return false
-        // }
-
-        return true;
-      } catch (error: any) {
-        // console.log("Error checking if user exists: ", error.message);
-        return false;
-      }
+    async session({ session, token, user }) {
+      session.user = token as any;
+      return session;
     },
   },
 };

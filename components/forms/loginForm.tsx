@@ -29,13 +29,13 @@ const FormSchema = z.object({
 export function LoginForm() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setisLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    setisLoading(true);
+    setIsLoading(true);
     console.log(data);
     const loginStatus = await login(
       data.email as string,
@@ -43,14 +43,14 @@ export function LoginForm() {
     );
     console.log("loginStatus", loginStatus);
 
-    if (loginStatus.success) {
+    if (loginStatus) {
       // Authentication success
       router.push("/");
     } else {
       // 401 not autherized
-      setError(loginStatus?.message);
+      setError(loginStatus);
     }
-    setisLoading(false);
+    setIsLoading(false);
   }
 
   return (
