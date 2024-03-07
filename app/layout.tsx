@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 const inter = Inter({ subsets: ["latin"] });
+import AuthProvider from "@/context/AuthProvider";
 
 export const metadata: Metadata = {
   title: "Soru",
@@ -17,8 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar />
-        {children}
+        <AuthProvider>
+          <Navbar />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

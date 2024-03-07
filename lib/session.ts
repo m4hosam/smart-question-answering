@@ -2,8 +2,7 @@ import { getServerSession } from "next-auth/next";
 import { NextAuthOptions, User } from "next-auth";
 import { AdapterUser } from "next-auth/adapters";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { autherize, getUser } from "@/lib/authController";
-
+import { autherizeUser, getUser } from "@/lib/authController";
 // import { createUser, getUser } from "./actions";
 
 export const authOptions: NextAuthOptions = {
@@ -26,38 +25,40 @@ export const authOptions: NextAuthOptions = {
         // This is where you need to retrieve user data
         // to verify with credentials
         // Docs: https://next-auth.js.org/configuration/providers/credentials
-        const user = await autherize(
+        console.log("credentials in session: ", credentials);
+        const authorizedUser = await autherizeUser(
           credentials?.email as string,
           credentials?.password as string
         );
-        // console.log("user in autherize session: ", user?.data)
-        if (!user) {
+        console.log("user in autherize session: ", authorizedUser);
+        if (!authorizedUser) {
           return null;
         } else {
-          return user?.data;
+          return authorizedUser;
         }
       },
     }),
   ],
   // jwt: {
-  //     encode: ({ secret, token }) => {
-  //         const encodedToken = jsonwebtoken.sign(
-  //             {
-  //                 ...token,
-  //                 iss: "grafbase",
-  //                 exp: Math.floor(Date.now() / 1000) + 60 * 60,
-  //             },
-  //             secret
-  //         );
+  //   encode: ({ secret, token }) => {
+  //     const encodedToken = jsonwebtoken.sign(
+  //       {
+  //         ...token,
+  //         iss: "grafbase",
+  //         exp: Math.floor(Date.now() / 1000) + 60 * 60,
+  //       },
+  //       secret
+  //     );
 
-  //         return encodedToken;
-  //     },
-  //     decode: async ({ secret, token }) => {
-  //         const decodedToken = jsonwebtoken.verify(token!, secret);
-  //         return decodedToken as JWT;
-  //     },
+  //     return encodedToken;
+  //   },
+  //   decode: async ({ secret, token }) => {
+  //     const decodedToken = jsonwebtoken.verify(token!, secret);
+  //     return decodedToken as JWT;
+  //   },
   // },
   secret: process.env.NEXTAUTH_SECRET!,
+  // session: { strategy: "jwt" },
   pages: {
     signIn: "/account/login",
     signOut: "/auth/signout",
@@ -74,13 +75,14 @@ export const authOptions: NextAuthOptions = {
       /* Step 1: update the token based on the user object */
       if (token?.email) {
         const data = await getUser(token?.email);
-        // console.log("jwt user: ", user)
+        console.log("jwt user: ", user);
         token = {
-          ...token,
+          id: data.id,
+          email: data.email,
           role: data?.role,
         };
       }
-      // console.log("tokein in jwt", token)
+      console.log("tokein in jwt", token);
       return token;
     },
     async session({ session }) {

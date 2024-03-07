@@ -3,8 +3,12 @@
 import { Dropdown, Navbar } from "flowbite-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 export default function NavbarStudent() {
+  const { data: session, status } = useSession();
+  console.log("session in navbar: ", session);
   return (
     <Navbar fluid rounded className="bg-gray-200">
       <Navbar.Brand href="https://flowbite-react.com">
@@ -47,6 +51,9 @@ export default function NavbarStudent() {
         >
           Sign In
         </Link>
+        <button onClick={() => signOut()} className="text-red-500">
+          Sign Out
+        </button>
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>

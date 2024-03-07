@@ -28,7 +28,7 @@ export async function createUser(
 export async function register(email: string, password: string, name: string) {
   try {
     const createdUser = await createUser(email, password, name);
-    // console.log("createUserStatus: ", createUserStatus)
+    console.log("createUserStatus: ", createdUser);
     if (createdUser) {
       // console.log("createUserStatus: ", createUserStatus?.success)
       const signInResponse = await signIn("credentials", {
@@ -40,7 +40,7 @@ export async function register(email: string, password: string, name: string) {
       if (signInResponse && !signInResponse.error) {
         return createdUser;
       }
-      // console.log("signInResponse: ", signInResponse)
+      console.log("signInResponse: ", signInResponse);
       // console.log("signInResponse.error: ", signInResponse?.error)
     } else {
       return createdUser;
@@ -52,7 +52,7 @@ export async function register(email: string, password: string, name: string) {
 }
 
 // Authentication
-export async function autherize(email: string, password: string) {
+export async function autherizeUser(email: string, password: string) {
   // password should be hashed before calling this function
   try {
     const response = await axios.post(
@@ -62,7 +62,7 @@ export async function autherize(email: string, password: string) {
         password: password,
       }
     );
-    // console.log("user/read: ", response.data)
+    console.log("autherize func: ", response.data);
     // returns user {email and name} if user autherized, empty object if not
     return response.data;
   } catch (error) {
@@ -73,8 +73,8 @@ export async function autherize(email: string, password: string) {
 
 export async function login(email: string, password: string) {
   try {
-    const autherizedUser = await autherize(email, password);
-    // console.log("userAutherized: ", userAutherized)
+    const autherizedUser = await autherizeUser(email, password);
+    console.log("userAutherized login func: ", autherizedUser);
     // if user autherized {user: {email, name}} else {user: {}},
     if (autherizedUser) {
       const signInResponse = await signIn("credentials", {
