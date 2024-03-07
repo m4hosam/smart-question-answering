@@ -57,61 +57,19 @@ export function RegisterForm(props: CredentialsFormProps) {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setisLoading(true);
     console.log(data);
-    const registerStatus = await register(
+    const registerResponse = await register(
       data.email as string,
       data.password as string,
       data.name as string
     );
-    console.log("registerStatus", registerStatus);
-    if (registerStatus?.success) {
+    console.log("registerStatus", registerResponse);
+    if (registerResponse?.status === 200) {
       router.push("/");
     } else {
-      console.log("Error", registerStatus);
-      setError(registerStatus?.message);
+      setError(registerResponse?.data);
     }
     setisLoading(false);
   }
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-
-    // const data = new FormData(e.currentTarget);
-    // const email = data?.get("email") as string
-    // const name = data?.get("name") as string
-    // const password = data?.get("password") as string
-    // const password_confirm = data.get("password_confirm")
-    // if (password !== password_confirm) {
-    //     setError("Passwords do not match!")
-    //     return
-    // }
-
-    // const registerStatus = await register(
-    //     email,
-    //     password,
-    //     name,
-    // );
-    // console.log("registerStatus", registerStatus)
-
-    // if (registerStatus === 200) {
-    //     // Authentication success
-    //     router.push("/")
-    // }
-    // else if (registerStatus === 409) {
-    //     setError("User Already Exists. Login in instead.")
-    // }
-    // else {
-    //     // 401 not autherized
-    //     setError("Error in Registering User")
-    // }
-    // if (signInResponse && !signInResponse.error) {
-    //     // Authentication success
-    //     router.push("/")
-    // }
-    // else {
-    //     console.log("Error", signInResponse)
-    //     setError("Your Email or Password is wrong!")
-    // }
-  };
 
   return (
     <Form {...form}>

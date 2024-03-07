@@ -1,7 +1,6 @@
-import axios from "axios";
+import axios, { AxiosResponse, AxiosError } from "axios";
 import { signIn } from "next-auth/react";
 // import bcrypt from "bcryptjs";
-import { AxiosResponse, AxiosError } from "axios";
 
 export async function createUser(
   email: string,
@@ -18,18 +17,24 @@ export async function createUser(
       }
     );
     // console.log("createUser status: ", response.data.success)
-    return response.data;
+    return response;
   } catch (error) {
-    console.log(error);
-    throw error;
+    if (axios.isAxiosError(error)) {
+      // const err = error as AxiosError;
+      // console.log(err.response?.data);
+      return error.response;
+    } else {
+      console.log(error);
+      throw error;
+    }
   }
 }
 
 export async function register(email: string, password: string, name: string) {
   try {
-    const createdUser = await createUser(email, password, name);
-    console.log("createUserStatus: ", createdUser);
-    if (createdUser) {
+    const createdUserResponse = await createUser(email, password, name);
+    console.log("createUserStatus: ", createdUserResponse);
+    if (createdUserResponse?.status === 200) {
       // console.log("createUserStatus: ", createUserStatus?.success)
       const signInResponse = await signIn("credentials", {
         email: email,
@@ -38,12 +43,12 @@ export async function register(email: string, password: string, name: string) {
       });
 
       if (signInResponse && !signInResponse.error) {
-        return createdUser;
+        return createdUserResponse;
       }
       console.log("signInResponse: ", signInResponse);
       // console.log("signInResponse.error: ", signInResponse?.error)
     } else {
-      return createdUser;
+      return createdUserResponse;
     }
   } catch (error) {
     console.log(error);
@@ -64,19 +69,25 @@ export async function autherizeUser(email: string, password: string) {
     );
     console.log("autherize func: ", response.data);
     // returns user {email and name} if user autherized, empty object if not
-    return response.data;
+    return response;
   } catch (error) {
-    console.log(error);
-    throw error;
+    if (axios.isAxiosError(error)) {
+      // const err = error as AxiosError;
+      // console.log(err.response?.data);
+      return error.response;
+    } else {
+      console.log(error);
+      throw error;
+    }
   }
 }
 
 export async function login(email: string, password: string) {
   try {
-    const autherizedUser = await autherizeUser(email, password);
-    console.log("userAutherized login func: ", autherizedUser);
+    const autherizedUserResponse = await autherizeUser(email, password);
+    console.log("userAutherized login func: ", autherizedUserResponse);
     // if user autherized {user: {email, name}} else {user: {}},
-    if (autherizedUser) {
+    if (autherizedUserResponse?.status === 200) {
       const signInResponse = await signIn("credentials", {
         email: email,
         password: password,
@@ -84,12 +95,12 @@ export async function login(email: string, password: string) {
       });
       // User autherized
       if (signInResponse && !signInResponse.error) {
-        return autherizedUser;
+        return autherizedUserResponse;
       }
     }
     // user not autherized wrong password or not registered
     else {
-      return autherizedUser;
+      return autherizedUserResponse;
     }
   } catch (error) {
     console.log(error);

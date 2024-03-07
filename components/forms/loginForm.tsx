@@ -14,8 +14,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import toast, { Toaster } from "react-hot-toast";
-import { login } from "@/lib/authController";
+import { autherizeUser, login } from "@/lib/authController";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 const FormSchema = z.object({
   email: z.string().email().trim().min(1, {
@@ -37,18 +38,24 @@ export function LoginForm() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     setIsLoading(true);
     console.log(data);
-    const loginStatus = await login(
+    const loginResponse = await login(
       data.email as string,
       data.password as string
     );
-    console.log("loginStatus", loginStatus);
+    // const loginResponse = await signIn("credentials", {
+    //   email: data.email,
+    //   password: data.password,
+    //   redirect: false,
+    // });
 
-    if (loginStatus) {
+    console.log("loginStatus", loginResponse);
+
+    if (loginResponse?.status === 200) {
       // Authentication success
       router.push("/");
     } else {
       // 401 not autherized
-      setError(loginStatus);
+      setError(loginResponse?.data);
     }
     setIsLoading(false);
   }

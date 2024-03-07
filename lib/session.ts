@@ -26,15 +26,15 @@ export const authOptions: NextAuthOptions = {
         // to verify with credentials
         // Docs: https://next-auth.js.org/configuration/providers/credentials
         console.log("credentials in session: ", credentials);
-        const authorizedUser = await autherizeUser(
+        const authorizedUserResponse = await autherizeUser(
           credentials?.email as string,
           credentials?.password as string
         );
-        console.log("user in autherize session: ", authorizedUser);
-        if (!authorizedUser) {
-          return null;
+        console.log("user in autherize session: ", authorizedUserResponse);
+        if (authorizedUserResponse?.status === 200) {
+          return authorizedUserResponse.data;
         } else {
-          return authorizedUser;
+          return null;
         }
       },
     }),
