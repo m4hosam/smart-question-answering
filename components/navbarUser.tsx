@@ -16,7 +16,7 @@ export default function NavbarStudent() {
   console.log("session in navbar: ", session);
   return (
     <Navbar fluid rounded className="bg-gray-200">
-      <Navbar.Brand href="https://flowbite-react.com">
+      <Navbar.Brand href="/">
         <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
           Logo
         </span>
@@ -45,13 +45,13 @@ export default function NavbarStudent() {
       </div>
       <Navbar.Collapse>
         <Navbar.Link
-          href="#"
+          href="/"
           active
           className="bg-zinc-400  text-white dark:text-white md:bg-transparent md:text-cyan-700"
         >
           Home
         </Navbar.Link>
-        <Navbar.Link href="#">My Questions</Navbar.Link>
+        <Navbar.Link href="/myquestions">My Questions</Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
   );
