@@ -14,28 +14,23 @@ import { set } from "react-hook-form";
 import Image from "next/image";
 import { Textarea } from "@/components/ui/textarea";
 import { FileInput, Label } from "flowbite-react";
+import UploadQuestionForm from "@/components/forms/uploadQuestionForm";
 
-type Form = {
-  image: string;
-};
 export default function AddQuestion() {
-  const [form, setform] = useState<Form>({
-    image: "",
-  });
+  const [image, setImage] = useState("");
+  const [question, setQuestion] = useState("");
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
     if (!file.type.includes("image")) {
       return alert("Please upload an image");
     }
-
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
       const result = reader.result as string;
-      setform((prev) => ({ ...prev, image: result }));
+      setImage(result);
     };
   };
   return (
@@ -46,60 +41,12 @@ export default function AddQuestion() {
       </TabsList>
       <TabsContent value="upload">
         <Card className="min-h-[60vh]">
-          <CardHeader>
+          {/* <CardHeader>
             <CardTitle className="text-center">Upload Question</CardTitle>
-          </CardHeader>
+          </CardHeader> */}
           <CardContent className="space-y-2">
-            <div className="flex w-full items-center justify-center">
-              <Label
-                htmlFor="dropzone-file"
-                className="dark:hover:bg-bray-800 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-              >
-                <div className="flex flex-col items-center justify-center pb-6 pt-5">
-                  <svg
-                    className="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 20 16"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                    />
-                  </svg>
-                  <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                    <span className="font-semibold">Click to upload</span> or
-                    drag and drop
-                  </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
-                    SVG, PNG, JPG or GIF (MAX. 800x400px)
-                  </p>
-                </div>
-                {form.image && (
-                  <Image
-                    src={form?.image}
-                    className="sm:p-10 absolute w-96 max-h-72 object-contain z-20"
-                    alt="image"
-                    width={200}
-                    height={200}
-                  />
-                )}
-                <FileInput
-                  id="dropzone-file"
-                  onChange={(e) => handleChangeImage(e)}
-                  className="hidden"
-                />
-              </Label>
-            </div>
-            <FileInput id="dropzone-file" className="hidden" />
+            <UploadQuestionForm />
           </CardContent>
-          <CardFooter>
-            <Button className="mx-auto w-40">Upload</Button>
-          </CardFooter>
         </Card>
       </TabsContent>
       <TabsContent value="add">

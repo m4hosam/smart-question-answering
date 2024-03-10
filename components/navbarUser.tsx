@@ -13,7 +13,7 @@ export default function NavbarStudent() {
     // console.log("Signed in as", session?.user?.email);
   }
   const userChar = session?.user?.name?.charAt(0) ?? "U";
-  console.log("session in navbar: ", session);
+  // console.log("session in navbar: ", session);
   return (
     <Navbar fluid rounded className="bg-gray-200">
       <Navbar.Brand href="/">
