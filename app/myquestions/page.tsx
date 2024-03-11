@@ -1,7 +1,7 @@
 import React from "react";
-
-const MyQuestions = () => {
-  return <div>MyQuestions page</div>;
-};
-
-export default MyQuestions;
+import { getQuestions } from "@/lib/questionController";
+export default async function MyQuestions() {
+  const questions = await getQuestions();
+  console.log(questions?.data[0]);
+  return <div>Hi</div>;
+}

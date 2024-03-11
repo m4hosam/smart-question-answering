@@ -47,7 +47,7 @@ export default function AddQuestionForm() {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     // console.log(data);
     // const questionResponse = createQuestion(data);
-    // console.log(session);
+    console.log(session);
     if (!session) {
       redirect("/account/login");
     } else {
