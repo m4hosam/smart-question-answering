@@ -18,11 +18,13 @@ import sampleQuestionImage from "@/public/sample.jpeg";
 interface QuestionCardProps {
   question: string;
   category: string;
+  id: string;
 }
 
 const QuestionCardTeacher: React.FC<QuestionCardProps> = ({
   question,
   category,
+  id,
 }) => {
   // Regex to match the question and the multiple choice answers
   const regex =

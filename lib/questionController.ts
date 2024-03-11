@@ -30,10 +30,56 @@ export async function createQuestion(userQuestion: {
   }
 }
 
-export async function getQuestions() {
+export async function getAllQuestions() {
   try {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_API_URL}question`
+    );
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // const err = error as AxiosError;
+      // console.log(err.response?.data);
+      return error.response;
+    } else {
+      console.log(error);
+      throw error;
+    }
+  }
+}
+
+export async function getMyQuestions(token: string) {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}question/user`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      // const err = error as AxiosError;
+      // console.log(err.response?.data);
+      return error.response;
+    } else {
+      console.log(error);
+      throw error;
+    }
+  }
+}
+
+export async function getTeacherQuestions(token: string) {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}question/teacher`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     return response;
   } catch (error) {

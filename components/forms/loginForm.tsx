@@ -52,7 +52,11 @@ export function LoginForm() {
 
     if (loginResponse?.status === 200) {
       // Authentication success
-      router.push("/");
+      if (loginResponse.data.role === "teacher") {
+        router.push("/teacher");
+      } else {
+        router.push("/");
+      }
     } else {
       // 401 not autherized
       setError(loginResponse?.data);
