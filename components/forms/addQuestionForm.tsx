@@ -1,8 +1,8 @@
+"use client";
 import React, { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import toast, { Toaster } from "react-hot-toast";
-import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -10,7 +10,6 @@ import { z } from "zod";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,6 +22,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useSession } from "next-auth/react";
+import { createQuestion } from "@/lib/questionController";
+import { redirect } from "next/navigation";
 
 const FormSchema = z.object({
   category: z.string({
@@ -34,22 +36,32 @@ const FormSchema = z.object({
 });
 
 export default function AddQuestionForm() {
-  const [question, setQuestion] = useState<string>();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      category: "",
+      question: "",
+    },
   });
-
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (question === "") {
-      toast.error("Please add Question.");
+  const { data: session, status } = useSession();
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    // console.log(data);
+    // const questionResponse = createQuestion(data);
+    // console.log(session);
+    if (!session) {
+      redirect("/account/login");
     } else {
-      console.log(question);
+      // add question
+      const userQuestion = { ...data, token: session.user.token };
+      const questionResponse = await createQuestion(userQuestion);
+      if (questionResponse?.status === 200) {
+        toast.success("Question added successfully.");
+        form.reset();
+      } else {
+        toast.error(questionResponse?.data.message);
+      }
+      // clear all fields
     }
-  };
-
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
   }
 
   return (
@@ -64,23 +76,6 @@ export default function AddQuestionForm() {
         <h2 className="text-2xl font-semibold leading-none tracking-tight text-center">
           Add Question
         </h2>
-        <FormField
-          control={form.control}
-          name="question"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Question</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Enter your question."
-                  className="h-36 resize-none"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name="category"
@@ -100,6 +95,23 @@ export default function AddQuestionForm() {
                 </SelectContent>
               </Select>
 
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="question"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Question</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Enter your question."
+                  className="h-36 resize-none"
+                  {...field}
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
