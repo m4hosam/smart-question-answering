@@ -14,17 +14,18 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import sampleQuestionImage from "@/public/sample.jpeg";
+import AddAnswerForm from "@/components/forms/addAnswerForm";
 
 interface QuestionCardProps {
   question: string;
   category: string;
-  id: string;
+  question_id: string;
 }
 
 const QuestionCardTeacher: React.FC<QuestionCardProps> = ({
   question,
   category,
-  id,
+  question_id,
 }) => {
   // Regex to match the question and the multiple choice answers
   const regex =
@@ -73,17 +74,8 @@ const QuestionCardTeacher: React.FC<QuestionCardProps> = ({
                 Please add the answer and submit the form
               </DialogDescription>
             </DialogHeader>
-            <div className="flex items-center space-x-2">
-              <div className="grid flex-1 gap-2">
-                <Label htmlFor="link" className="sr-only">
-                  Link
-                </Label>
-                <Textarea placeholder="Type your answer here." />
-              </div>
-              <Button type="submit" className="px-3">
-                Submit
-              </Button>
-            </div>
+            {/* answer form */}
+            <AddAnswerForm questionId={question_id} />
           </DialogContent>
         </Dialog>
 

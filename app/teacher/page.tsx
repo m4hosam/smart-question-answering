@@ -20,7 +20,7 @@ export default async function Teacher() {
         {questions?.data.map((question: Question) => (
           <QuestionCardTeacher
             key={question.id}
-            id={question.id}
+            question_id={question.id}
             question={question.question}
             category={question.category}
           />
