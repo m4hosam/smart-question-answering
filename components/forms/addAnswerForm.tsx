@@ -27,6 +27,9 @@ const FormSchema = z.object({
 export default function AddAnswerForm({ questionId }: { questionId: string }) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      answer: "",
+    },
   });
   const { data: session } = useSession();
 
@@ -39,6 +42,7 @@ export default function AddAnswerForm({ questionId }: { questionId: string }) {
     const response = await createAnswer(teacherAnswer, userToken);
     if (response?.status === 200) {
       toast.success("Answer added successfully.");
+      form.reset();
     } else {
       toast.error(response?.data.message);
     }
