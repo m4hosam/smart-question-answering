@@ -48,6 +48,15 @@ export default function NavbarStudent() {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
+        {/* if user role is teacher add link to /teacher */}
+        {session?.user?.role === "teacher" && (
+          <Navbar.Link
+            href="/teacher"
+            className="text-white hover:text-cyan-400 hover:bg-cyan-800"
+          >
+            Teacher
+          </Navbar.Link>
+        )}
         <Navbar.Link
           href="/"
           className="  text-white hover:text-cyan-400 hover:bg-cyan-800  "
