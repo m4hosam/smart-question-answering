@@ -1,10 +1,10 @@
 import React from "react";
 import { Card } from "flowbite-react";
 import { Separator } from "@/components/ui/separator";
-
+import { Answer } from "@/types/common.types";
 interface QuestionCardProps {
   question: string;
-  answer: string;
+  answer: Answer[];
   category: string;
 }
 
@@ -32,6 +32,9 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
       });
     }
   }
+
+  let answerStatus = answer.length === 0 ? "Pending Answer" : answer[0].answer;
+
   return (
     <Card className="w-full">
       <p className="text-sm">{category}</p>
@@ -49,7 +52,16 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
         ))}
       </ul>
       <p>
-        <span className="text-green-500	font-semibold">Answer:</span> {answer}
+        <span className="text-green-500	font-semibold">Answer:</span>{" "}
+        <span
+          className={
+            answerStatus === "Pending Answer"
+              ? "text-red-500 font-semibold"
+              : "text-gray-900 font-semibold"
+          }
+        >
+          {answerStatus}
+        </span>
       </p>
     </Card>
   );

@@ -7,7 +7,12 @@ import { Question } from "@/types/common.types";
 import { getAllQuestions } from "@/lib/questionController";
 
 export default async function Home() {
-  const questions = await getAllQuestions();
+  const questionsResponse = await getAllQuestions();
+  let questions: Question[] = [];
+  if (questionsResponse?.status === 200) {
+    questions = questionsResponse.data;
+  }
+
   return (
     <main className="flex items-center justify-center flex-col w-full md:w-[70%] mr-auto ml-auto">
       <AddQuestion />
@@ -19,11 +24,11 @@ export default async function Home() {
           answer="B"
           category="Matematik"
         /> */}
-        {questions?.data.map((question: Question) => (
+        {questions.map((question: Question) => (
           <QuestionCard
             key={question.id}
             question={question.question}
-            answer={question.status}
+            answer={question.Answer}
             category={question.category}
           />
         ))}
