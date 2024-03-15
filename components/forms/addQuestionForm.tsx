@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/select";
 import { useSession } from "next-auth/react";
 import { createQuestion } from "@/lib/questionController";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   category: z.string({
@@ -43,13 +43,14 @@ export default function AddQuestionForm() {
       question: "",
     },
   });
+  const router = useRouter();
   const { data: session, status } = useSession();
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     // console.log(data);
     // const questionResponse = createQuestion(data);
     console.log(session);
     if (!session) {
-      redirect("/account/login");
+      router.push("/account/login");
     } else {
       // add question
       const userQuestion = { ...data, token: session.user.token };
