@@ -22,7 +22,7 @@ export default async function MyQuestions() {
           <QuestionCard
             key={question.id}
             question={question.question}
-            answer={question.status}
+            answer={question.Answer}
             category={question.category}
           />
         ))}
