@@ -10,8 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import sampleQuestionImage from "@/public/sample.jpeg";
 import AddAnswerForm from "@/components/forms/addAnswerForm";
@@ -82,12 +80,12 @@ const QuestionCardTeacher: React.FC<QuestionCardProps> = ({
         <Dialog>
           <DialogTrigger asChild>
             <Button className="mt-9 w-48 bg-blue-700 hover:bg-blue-500">
-              View Question's Image
+              View Question&apos;s Image
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Question's Image</DialogTitle>
+              <DialogTitle>Question&apos;s Image</DialogTitle>
             </DialogHeader>
             <Image
               src={sampleQuestionImage}
