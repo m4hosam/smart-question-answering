@@ -28,7 +28,7 @@ export function ProfileAvatar({ userChar }: Readonly<{ userChar: string }>) {
           <Link href="/account">
             <DropdownMenuItem>Details</DropdownMenuItem>
           </Link>
-          <Link href="/questions">
+          <Link href="/myquestions">
             <DropdownMenuItem>My Questions</DropdownMenuItem>
           </Link>
         </DropdownMenuGroup>

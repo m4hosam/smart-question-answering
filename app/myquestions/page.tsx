@@ -1,5 +1,5 @@
 import React from "react";
-import QuestionCard from "@/components/questionCard";
+import MyQuestionCard from "@/components/myQuestionCard";
 import { getMyQuestions } from "@/lib/questionController";
 import { Question } from "@/types/common.types";
 import { getCurrentUser } from "@/lib/session";
@@ -19,7 +19,7 @@ export default async function MyQuestions() {
       {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mx-9"> */}
       <div className="flex flex-col items-center w-[70%] mx-auto gap-9 mb-14">
         {questions?.data.map((question: Question) => (
-          <QuestionCard
+          <MyQuestionCard
             key={question.id}
             question={question.question}
             answer={question.Answer}
