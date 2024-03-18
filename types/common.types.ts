@@ -17,3 +17,13 @@ export type Question = {
   updatedAt: string;
   Answer: Answer[];
 };
+
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  password?: string;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+};

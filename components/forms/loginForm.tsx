@@ -54,6 +54,8 @@ export function LoginForm() {
       // Authentication success
       if (loginResponse.data.role === "teacher") {
         router.push("/teacher");
+      } else if (loginResponse.data.role === "admin") {
+        router.push("/admin");
       } else {
         router.push("/");
       }

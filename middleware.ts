@@ -5,8 +5,9 @@
 import { getToken } from "next-auth/jwt";
 import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
 const PUBLIC_FILE = /\.(.*)$/;
-const FORBIDDEN_PATHS = ["/myquestions", "/account", "/teacher"];
+const FORBIDDEN_PATHS = ["/myquestions", "/account", "/teacher", "/admin"];
 const TEACHER_PATHS = ["/teacher"];
+const ADMIN_PATHS = ["/admin"];
 
 export async function middleware(request: NextRequest, _next: NextFetchEvent) {
   const { pathname } = request.nextUrl;
@@ -24,19 +25,26 @@ export async function middleware(request: NextRequest, _next: NextFetchEvent) {
   const matchesTeacherPath = TEACHER_PATHS.some((path) =>
     pathname.startsWith(path)
   );
+  const matchesAdminPath = ADMIN_PATHS.some((path) =>
+    pathname.startsWith(path)
+  );
   if (matchesForbiddenPath) {
-    // console.log("middleware", request.url)
+    console.log("middleware", request.url);
     const token = await getToken({
       req: request,
       secret: process.env.SECRET,
     });
-    // console.log("user in Middleware", token);
+    console.log("user in Middleware", token);
     if (!token) {
       const url = new URL(`/account/login`, request.url);
       url.searchParams.set("callbackUrl", encodeURI(request.url));
       return NextResponse.redirect(url);
     }
     if (token.role !== "teacher" && matchesTeacherPath) {
+      const url = new URL(`/`, request.url);
+      return NextResponse.redirect(url);
+    }
+    if (token.role !== "admin" && matchesAdminPath) {
       const url = new URL(`/`, request.url);
       return NextResponse.redirect(url);
     }
@@ -51,6 +59,7 @@ export const config = {
     "/teacher/:path*",
     "/account",
     "/myquestions",
+    "/admin/:path*",
     // "/api/auth/signin",
     // "/api/auth/signout",
     // "/api/auth/session",
