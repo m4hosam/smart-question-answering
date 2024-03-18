@@ -27,3 +27,14 @@ export type User = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type UserToken = {
+  id: string;
+  name: string;
+  email: string;
+  password?: string;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+  token: string;
+};

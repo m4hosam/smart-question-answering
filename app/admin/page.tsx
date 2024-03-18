@@ -29,7 +29,7 @@ export default async function Admin() {
   if (!userSession) {
     redirect("/account/login");
   }
-  console.log("userSession", userSession);
+  // console.log("userSession", userSession);
   const usersResponse = await getAllUsers(userSession?.user?.token as string);
   // console.log(usersResponse?.data);
   if (usersResponse?.status !== 200) {
@@ -57,7 +57,7 @@ export default async function Admin() {
               <TableCell>{user.role}</TableCell>
               {/* <TableCell className="text-right">{user.token}</TableCell> */}
               <TableCell className="text-right">
-                <a href={"/" + user.id}>details</a>
+                <a href={"/admin/" + user.id}>details</a>
               </TableCell>
             </TableRow>
           ))}
