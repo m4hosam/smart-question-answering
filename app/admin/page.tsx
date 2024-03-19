@@ -30,7 +30,7 @@ export default async function Admin() {
     redirect("/account/login");
   }
   // console.log("userSession", userSession);
-  const usersResponse = await getAllUsers(userSession?.user?.token as string);
+  const usersResponse = await getAllUsers(userSession?.user?.token);
   // console.log(usersResponse?.data);
   if (usersResponse?.status !== 200) {
     return <div>{usersResponse?.data}</div>;

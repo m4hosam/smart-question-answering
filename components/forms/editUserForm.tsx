@@ -28,7 +28,8 @@ import { UserToken } from "@/types/common.types";
 import { Label } from "@/components/ui/label";
 import { FaRegCopy } from "react-icons/fa6";
 import { MdOutlineDone } from "react-icons/md";
-
+import { updateUserById } from "@/lib/adminController";
+import { useSession } from "next-auth/react";
 const FormSchema = z.object({
   name: z.string({
     required_error: "Please add name.",
@@ -42,6 +43,9 @@ const FormSchema = z.object({
 });
 
 export default function EditUserForm({ user }: { user: UserToken }) {
+  const { data: session } = useSession();
+  const router = useRouter();
+
   const [isTokenCopied, setIsTokenCopied] = useState(false);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -51,13 +55,23 @@ export default function EditUserForm({ user }: { user: UserToken }) {
       role: user.role,
     },
   });
-  const router = useRouter();
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
+    // console.log(data);
+    // console.log(user.token);
+    const AdminToken = session?.user?.token ?? "";
+    const response = await updateUserById(user.id, data, AdminToken);
+    if (response?.status === 200) {
+      toast.success("User updated successfully");
+      // router.push("/admin");
+    } else {
+      toast.error("Error updating user");
+    }
+    // console.log(response);
   }
 
   return (
     <Form {...form}>
+      <Toaster position="bottom-right" reverseOrder={false} />
       <form
         className="flex flex-col  items-center justify-between gap-6 mt-4"
         onSubmit={form.handleSubmit(onSubmit)}

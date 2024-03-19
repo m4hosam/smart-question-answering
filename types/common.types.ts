@@ -38,3 +38,9 @@ export type UserToken = {
   updatedAt: string;
   token: string;
 };
+
+export type UserUpdate = {
+  name: string;
+  email: string;
+  role: string;
+};

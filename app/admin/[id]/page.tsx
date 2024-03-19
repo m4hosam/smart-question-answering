@@ -18,7 +18,6 @@ export default async function EditUser({
   const user: UserToken = userResponse?.data;
   return (
     <div className="w-[60%]  mx-auto">
-      EditUser {id}
       <EditUserForm user={user} />
     </div>
   );
