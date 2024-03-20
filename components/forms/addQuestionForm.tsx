@@ -90,9 +90,14 @@ export default function AddQuestionForm() {
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="Math">Math</SelectItem>
-                  <SelectItem value="Physics">Physics</SelectItem>
-                  <SelectItem value="Chemistry">Chemistry</SelectItem>
+                  <SelectItem value="Matematik">Matematik</SelectItem>
+                  <SelectItem value="Biyoloji">Biyoloji</SelectItem>
+                  <SelectItem value="Fizik">Fizik</SelectItem>
+                  <SelectItem value="Geometri">Geometri</SelectItem>
+                  <SelectItem value="Tarih">Tarih</SelectItem>
+                  <SelectItem value="Din">Din Kültürü</SelectItem>
+                  <SelectItem value="Turkce">Türkçe</SelectItem>
+                  <SelectItem value="Felsefe">Felsefe</SelectItem>
                 </SelectContent>
               </Select>
 

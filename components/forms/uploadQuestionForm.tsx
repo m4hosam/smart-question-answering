@@ -30,6 +30,9 @@ export default function UploadQuestionForm() {
     if (image === "") {
       toast.error("Please upload an image");
     } else {
+      toast("This feature is not available", {
+        icon: "🛈",
+      });
       console.log(image);
     }
   };
