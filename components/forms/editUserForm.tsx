@@ -98,6 +98,7 @@ export default function EditUserForm({ user }: { user: UserToken }) {
             />
             <Button
               variant="secondary"
+              type="button"
               onClick={() => {
                 navigator.clipboard.writeText(user.token);
                 setIsTokenCopied(true);

@@ -14,17 +14,25 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { deleteQuestion } from "@/lib/questionController";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { toast } from "react-hot-toast";
 interface QuestionCardProps {
+  question_id: string;
   question: string;
   answer: Answer[];
   category: string;
 }
 
 const MyQuestionCard: React.FC<QuestionCardProps> = ({
+  question_id,
   question,
   answer,
   category,
 }) => {
+  const { data: session } = useSession();
+  const router = useRouter();
   // Regex to match the question and the multiple choice answers
   const regex =
     /(.*?)\s+([A-a][\)-\-])\s*(.*?)\s+([B-b][\)-\-])\s*(.*?)\s+([C-c][\)-\-])\s*(.*?)\s+([D-d][\)-\-])\s*(.*?)\s+([E-e][\)-\-])\s*(.*?)$/;
@@ -45,8 +53,22 @@ const MyQuestionCard: React.FC<QuestionCardProps> = ({
     }
   }
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     console.log("Delete button clicked");
+    console.log(session?.user?.token);
+    console.log(question_id);
+    const deletedQuestionResponse = await deleteQuestion(
+      question_id,
+      session?.user?.token as string
+    );
+    console.log(deletedQuestionResponse);
+    if (deletedQuestionResponse?.status !== 200) {
+      // console.log("Question deleted successfully");
+      toast.error(deletedQuestionResponse?.data.message);
+    } else {
+      toast.success("Question deleted successfully");
+    }
+    router.refresh();
   };
 
   let answerStatus = answer.length === 0 ? "Pending Answer" : answer[0].answer;
@@ -56,7 +78,7 @@ const MyQuestionCard: React.FC<QuestionCardProps> = ({
       <div className="flex justify-between w-full items-center">
         <p className="text-sm">{category}</p>
         {/* delete button */}
-        {/*  
+
         <Dialog>
           <DialogTrigger asChild>
             <button className="p-2 bg-red-500 rounded text-xs">Delete</button>
@@ -69,15 +91,17 @@ const MyQuestionCard: React.FC<QuestionCardProps> = ({
               </DialogDescription>
             </DialogHeader>
             <div className="flex justify-between flex-row-reverse w-full gap-3">
-              <Button
-                type="submit"
-                onClick={handleDelete}
-                variant="destructive"
-                size="sm"
-                className="px-3 w-1/2"
-              >
-                Yes
-              </Button>
+              <DialogClose asChild className="w-1/2">
+                <Button
+                  type="submit"
+                  onClick={handleDelete}
+                  variant="destructive"
+                  size="sm"
+                  className="px-3 w-1/2"
+                >
+                  Yes
+                </Button>
+              </DialogClose>
 
               <DialogClose asChild className="w-1/2">
                 <Button type="button" variant="secondary">
@@ -88,7 +112,6 @@ const MyQuestionCard: React.FC<QuestionCardProps> = ({
             <DialogFooter className="sm:justify-start"></DialogFooter>
           </DialogContent>
         </Dialog>
-        */}
       </div>
       <Separator className="ml-auto mr-auto w-full " />
       <h3 className="text-lg font-semibold">Q: {question}</h3>

@@ -4,6 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -73,7 +74,9 @@ const QuestionCardTeacher: React.FC<QuestionCardProps> = ({
               </DialogDescription>
             </DialogHeader>
             {/* answer form */}
-            <AddAnswerForm questionId={question_id} />
+            <DialogClose asChild className="w-1/2">
+              <AddAnswerForm questionId={question_id} />
+            </DialogClose>
           </DialogContent>
         </Dialog>
 

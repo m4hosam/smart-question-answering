@@ -17,6 +17,7 @@ import {
 import { useSession } from "next-auth/react";
 import { createAnswer } from "@/lib/answerController";
 import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   answer: z.string({
@@ -25,6 +26,7 @@ const FormSchema = z.object({
 });
 
 export default function AddAnswerForm({ questionId }: { questionId: string }) {
+  const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -43,6 +45,7 @@ export default function AddAnswerForm({ questionId }: { questionId: string }) {
     if (response?.status === 200) {
       toast.success("Answer added successfully.");
       form.reset();
+      router.refresh();
     } else {
       toast.error(response?.data.message);
     }

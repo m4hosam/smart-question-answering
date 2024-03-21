@@ -21,6 +21,7 @@ export default async function MyQuestions() {
         {questions?.data.map((question: Question) => (
           <MyQuestionCard
             key={question.id}
+            question_id={question.id}
             question={question.question}
             answer={question.Answer}
             category={question.category}
