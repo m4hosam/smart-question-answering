@@ -8,9 +8,11 @@ import Image from "next/image";
 import { Textarea } from "@/components/ui/textarea";
 import { FileInput, Label } from "flowbite-react";
 import toast, { Toaster } from "react-hot-toast";
+import Tesseract from "tesseract.js";
 
 export default function UploadQuestionForm() {
   const [image, setImage] = useState<string>();
+  const [ocrText, setOcrText] = useState<string>("");
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -25,12 +27,24 @@ export default function UploadQuestionForm() {
       setImage(result);
     };
   };
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleOCR = async () => {
+    if (image) {
+      Tesseract.recognize(image, "tur", {
+        logger: (m) => console.log(m),
+      }).then(({ data: { text } }) => {
+        console.log(text);
+        setOcrText(text);
+      });
+    }
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (image === "") {
       toast.error("Please upload an image");
     } else {
-      toast("This feature is not available", {
+      await handleOCR();
+      toast(ocrText, {
         icon: "🛈",
       });
       console.log(image);
