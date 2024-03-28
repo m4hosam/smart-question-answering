@@ -1,14 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Textarea } from "@/components/ui/textarea";
 import { FileInput, Label } from "flowbite-react";
 import toast, { Toaster } from "react-hot-toast";
 import Tesseract from "tesseract.js";
+import tesseract from "node-tesseract-ocr";
 
 export default function UploadQuestionForm() {
   const [image, setImage] = useState<string>();
@@ -32,7 +30,7 @@ export default function UploadQuestionForm() {
       Tesseract.recognize(image, "tur", {
         logger: (m) => console.log(m),
       }).then(({ data: { text } }) => {
-        console.log(text);
+        console.log("OCR", text);
         setOcrText(text);
       });
     }
