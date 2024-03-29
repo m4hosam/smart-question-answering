@@ -6,7 +6,7 @@ import AddQuestionForm from "@/components/forms/addQuestionForm";
 
 export default function AddQuestion() {
   return (
-    <Tabs defaultValue="add" className="w-[90%] min-h-96 mx-auto mt-9">
+    <Tabs defaultValue="upload" className="w-[90%] min-h-96 mx-auto mt-9">
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="upload">Upload</TabsTrigger>
         <TabsTrigger value="add">Add</TabsTrigger>
