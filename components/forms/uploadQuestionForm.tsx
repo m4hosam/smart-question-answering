@@ -12,7 +12,8 @@ export default function UploadQuestionForm() {
   const router = useRouter();
   const { data: session, status } = useSession();
 
-  const [image, setImage] = useState<string>();
+  const [image, setImage] = useState<File | null>(null); // Store image as a file object
+
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,12 +22,7 @@ export default function UploadQuestionForm() {
     if (!file.type.includes("image")) {
       return alert("Please upload an image");
     }
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      const result = reader.result as string;
-      setImage(result);
-    };
+    setImage(file); // Store the image as a file object
   };
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -34,7 +30,7 @@ export default function UploadQuestionForm() {
       router.push("/account/login");
     }
     e.preventDefault();
-    if (image === "" || !image) {
+    if (!image) {
       toast.error("Please upload an image");
     } else {
       setLoading(true);
@@ -46,7 +42,7 @@ export default function UploadQuestionForm() {
       console.log(response?.data);
       if (response?.status === 200) {
         toast.success("Question added successfully.");
-        setImage("");
+        setImage(null);
       } else {
         toast.error("Error adding question. Please try again.");
         console.log(response?.data);
@@ -95,7 +91,7 @@ export default function UploadQuestionForm() {
           </div>
           {image && (
             <Image
-              src={image}
+              src={URL.createObjectURL(image)} // Use Object URL to display image
               className="sm:p-10 absolute w-96 max-h-72 object-contain z-20"
               alt="image"
               width={200}

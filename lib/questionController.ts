@@ -30,13 +30,18 @@ export async function createQuestion(userQuestion: {
   }
 }
 
-export async function createQurestionFromImage(image: string, token: string) {
+export async function createQurestionFromImage(image: File, token: string) {
   try {
+    const formData = new FormData();
+    formData.append("image", image);
+    // console.log("createQurestionFromImage: ", image);
+
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}question/upload`,
-      { image },
+      `${process.env.NEXT_PUBLIC_API_URL}question/image`,
+      formData,
       {
         headers: {
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`,
         },
         timeout: 70000, // Set the timeout to 70 seconds (in milliseconds)
