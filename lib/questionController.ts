@@ -30,29 +30,29 @@ export async function createQuestion(userQuestion: {
   }
 }
 
-export async function createQurestionFromImage(image: string, token: string) {
-  try {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}question/upload`,
-      { image },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        timeout: 70000, // Set the timeout to 70 seconds (in milliseconds)
-      }
-    );
-    // console.log("createQurestionFromImage: ", token);
-    return response;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      return error.response;
-    } else {
-      console.log(error);
-      throw error;
-    }
-  }
-}
+// export async function createQurestionFromImage(image: string, token: string) {
+//   try {
+//     const response = await axios.post(
+//       `${process.env.NEXT_PUBLIC_API_URL}question/upload`,
+//       { image },
+//       {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//         timeout: 70000, // Set the timeout to 70 seconds (in milliseconds)
+//       }
+//     );
+//     // console.log("createQurestionFromImage: ", token);
+//     return response;
+//   } catch (error) {
+//     if (axios.isAxiosError(error)) {
+//       return error.response;
+//     } else {
+//       console.log(error);
+//       throw error;
+//     }
+//   }
+// }
 
 export async function getAllQuestions() {
   try {

@@ -1,7 +1,7 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import UploadQuestionForm from "@/components/forms/uploadQuestionForm";
+// import UploadQuestionForm from "@/components/forms/uploadQuestionForm";
 import AddQuestionForm from "@/components/forms/addQuestionForm";
 
 export default function AddQuestion() {
