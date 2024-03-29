@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from "react";
-import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { FileInput, Label } from "flowbite-react";
@@ -26,8 +25,11 @@ export default function UploadQuestionForm() {
     reader.readAsDataURL(file);
     reader.onload = () => {
       const result = reader.result as string;
-      setImage(result);
+      reader.onload = () => handleImageLoad(reader.result as string);
     };
+  };
+  const handleImageLoad = (result: string) => {
+    setImage(result);
   };
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
