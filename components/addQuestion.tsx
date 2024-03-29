@@ -14,7 +14,7 @@ export default function AddQuestion() {
       <TabsContent value="upload">
         <Card className="min-h-[60vh]">
           <CardContent className="space-y-2">
-            <UploadQuestionForm />
+            {/* <UploadQuestionForm /> */}
           </CardContent>
         </Card>
       </TabsContent>

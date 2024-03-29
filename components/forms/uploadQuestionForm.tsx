@@ -49,9 +49,9 @@ export default function UploadQuestionForm() {
         toast.success("Question added successfully.");
         setImage("");
       } else {
-        toast.error(response?.data.message);
+        toast.error("Error adding question. Please try again.");
       }
-      console.log(image);
+      // console.log(image);
     }
   };
   return (
