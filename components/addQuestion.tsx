@@ -1,7 +1,7 @@
 "use client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-// import UploadQuestionForm from "@/components/forms/uploadQuestionForm";
+import UploadQuestionForm from "@/components/forms/uploadQuestionForm";
 import AddQuestionForm from "@/components/forms/addQuestionForm";
 
 export default function AddQuestion() {
@@ -14,7 +14,7 @@ export default function AddQuestion() {
       <TabsContent value="upload">
         <Card className="min-h-[60vh]">
           <CardContent className="space-y-2">
-            {/* <UploadQuestionForm /> */}
+            <UploadQuestionForm />
           </CardContent>
         </Card>
       </TabsContent>
