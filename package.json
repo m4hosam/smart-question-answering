@@ -25,15 +25,15 @@
     "flowbite-react": "^0.7.2",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.312.0",
-    "next": "14.0.4",
+    "next": "^14.1.4",
     "next-auth": "^4.24.6",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.0",
     "react-hot-toast": "^2.4.1",
+    "sharp": "^0.33.3",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
-    "sharp": "^0.33.3",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -42,7 +42,7 @@
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.16",
     "eslint": "^8",
-    "eslint-config-next": "14.0.4",
+    "eslint-config-next": "^14.1.4",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.4.0",
     "typescript": "^5"
