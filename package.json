@@ -23,7 +23,6 @@
     "clsx": "^2.1.0",
     "flowbite": "^2.2.1",
     "flowbite-react": "^0.7.2",
-    "jimp": "^0.22.12",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.312.0",
     "next": "14.0.4",
@@ -32,9 +31,9 @@
     "react-dom": "^18",
     "react-hook-form": "^7.51.0",
     "react-hot-toast": "^2.4.1",
-    "sharp": "^0.33.3",
     "tailwind-merge": "^2.2.0",
     "tailwindcss-animate": "^1.0.7",
+    "sharp": "^0.33.3",
     "zod": "^3.22.4"
   },
   "devDependencies": {
