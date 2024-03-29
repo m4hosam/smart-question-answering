@@ -25,11 +25,8 @@ export default function UploadQuestionForm() {
     reader.readAsDataURL(file);
     reader.onload = () => {
       const result = reader.result as string;
-      reader.onload = () => handleImageLoad(reader.result as string);
+      setImage(result);
     };
-  };
-  const handleImageLoad = (result: string) => {
-    setImage(result);
   };
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -52,6 +49,7 @@ export default function UploadQuestionForm() {
         setImage("");
       } else {
         toast.error("Error adding question. Please try again.");
+        console.log(response?.data);
       }
       // console.log(image);
     }
