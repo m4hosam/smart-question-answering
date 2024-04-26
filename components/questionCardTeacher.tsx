@@ -11,8 +11,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import Image from "next/image";
-import sampleQuestionImage from "@/public/sample.jpeg";
 import AddAnswerForm from "@/components/forms/addAnswerForm";
 
 interface QuestionCardProps {
@@ -79,25 +77,6 @@ const QuestionCardTeacher: React.FC<QuestionCardProps> = ({
             </DialogClose>
           </DialogContent>
         </Dialog>
-
-        {/* <Dialog>
-          <DialogTrigger asChild>
-            <Button className="mt-9 w-48 bg-blue-700 hover:bg-blue-500">
-              View Question&apos;s Image
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Question&apos;s Image</DialogTitle>
-            </DialogHeader>
-            <Image
-              src={sampleQuestionImage}
-              alt="Sample Question Image"
-              width={500}
-              height={500}
-            />
-          </DialogContent>
-        </Dialog> */}
       </section>
     </Card>
   );
