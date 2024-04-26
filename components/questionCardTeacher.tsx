@@ -46,7 +46,7 @@ const QuestionCardTeacher: React.FC<QuestionCardProps> = ({
     }
   }
   return (
-    <Card className="w-full">
+    <Card className="w-full mb-5 min-w-[35rem]">
       <p className="text-sm">{category}</p>
       <Separator className="ml-auto mr-auto w-full " />
       <h3 className="text-lg font-semibold">Q: {question}</h3>
@@ -80,7 +80,7 @@ const QuestionCardTeacher: React.FC<QuestionCardProps> = ({
           </DialogContent>
         </Dialog>
 
-        <Dialog>
+        {/* <Dialog>
           <DialogTrigger asChild>
             <Button className="mt-9 w-48 bg-blue-700 hover:bg-blue-500">
               View Question&apos;s Image
@@ -97,7 +97,7 @@ const QuestionCardTeacher: React.FC<QuestionCardProps> = ({
               height={500}
             />
           </DialogContent>
-        </Dialog>
+        </Dialog> */}
       </section>
     </Card>
   );
