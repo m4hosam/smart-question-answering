@@ -4,7 +4,10 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { FileInput, Label } from "flowbite-react";
 import toast, { Toaster } from "react-hot-toast";
-import { createQurestionFromImage } from "@/lib/questionController";
+import {
+  createQuestion,
+  extractQurestionFromImage,
+} from "@/lib/questionController";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
@@ -34,19 +37,38 @@ export default function UploadQuestionForm() {
       toast.error("Please upload an image");
     } else {
       setLoading(true);
-      const response = await createQurestionFromImage(
-        image,
-        session?.user.token as string
-      );
-      setLoading(false);
-      console.log(response?.data);
-      if (response?.status === 200) {
+      const extractionResponse = await extractQurestionFromImage(image);
+      if (extractionResponse?.status !== 200) {
+        console.log(extractionResponse?.data);
+        toast.error("Error in Extracting text.");
+        setLoading(false);
+      }
+      const userQuestion = {
+        ...extractionResponse?.data,
+        token: session?.user.token as string,
+      };
+      console.log(userQuestion);
+      // saving the extracted question to the DB
+      const questionResponse = await createQuestion(userQuestion);
+      if (questionResponse?.status === 200) {
         toast.success("Question added successfully.");
         setImage(null);
       } else {
-        toast.error("Error adding question. Please try again.");
-        console.log(response?.data);
+        toast.error("Error in saving question.");
       }
+      // const response = await createQurestionFromImage(
+      //   image,
+      //   session?.user.token as string
+      // );
+      setLoading(false);
+      // console.log(response?.data);
+      // if (response?.status === 200) {
+      //   toast.success("Question added successfully.");
+      //   setImage(null);
+      // } else {
+      //   toast.error("Error adding question. Please try again.");
+      //   console.log(response?.data);
+      // }
       // console.log(image);
     }
   };

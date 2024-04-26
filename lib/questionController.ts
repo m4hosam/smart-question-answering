@@ -59,6 +59,34 @@ export async function createQurestionFromImage(image: File, token: string) {
   }
 }
 
+export async function extractQurestionFromImage(image: File) {
+  try {
+    const formData = new FormData();
+    formData.append("image", image);
+    // console.log("createQurestionFromImage: ", image);
+
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_OCR_API_URL}image`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        timeout: 70000, // Set the timeout to 70 seconds (in milliseconds)
+      }
+    );
+    // console.log("extractQurestionFromImage response: ", response);
+    return response;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return error.response;
+    } else {
+      console.log(error);
+      throw error;
+    }
+  }
+}
+
 export async function getAllQuestions() {
   try {
     const response = await axios.get(
