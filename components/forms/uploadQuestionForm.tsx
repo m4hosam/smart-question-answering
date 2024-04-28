@@ -56,7 +56,7 @@ export default function UploadQuestionForm() {
           toast.success("Question added successfully.");
           setImage(null);
         } else if (questionResponse?.status === 409) {
-          toast.error("Question asked before.");
+          toast.error("Error Saving Question.");
           setSimilarQLink(questionResponse.data.similarQuestions[0].id);
           console.log(questionResponse.data.similarQuestions);
         } else if (questionResponse?.status === 403) {

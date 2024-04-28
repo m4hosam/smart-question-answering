@@ -64,7 +64,7 @@ export default function AddQuestionForm() {
         toast.success("Question added successfully.");
         form.reset();
       } else if (questionResponse?.status === 409) {
-        toast.error("Question asked before.");
+        toast.error("Error Saving Question.");
         setSimilarQLink(questionResponse.data.similarQuestions[0].id);
         console.log(questionResponse.data.similarQuestions);
       } else if (questionResponse?.status === 403) {
