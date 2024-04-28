@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Link from "next/link";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import toast, { Toaster } from "react-hot-toast";
@@ -7,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Form,
   FormControl,
@@ -36,6 +38,8 @@ const FormSchema = z.object({
 });
 
 export default function AddQuestionForm() {
+  // alert state when similar question is found
+  const [similarQLink, setSimilarQLink] = useState("");
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -45,6 +49,7 @@ export default function AddQuestionForm() {
   });
   const router = useRouter();
   const { data: session, status } = useSession();
+
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     // console.log(data);
     // const questionResponse = createQuestion(data);
@@ -58,8 +63,14 @@ export default function AddQuestionForm() {
       if (questionResponse?.status === 200) {
         toast.success("Question added successfully.");
         form.reset();
+      } else if (questionResponse?.status === 409) {
+        toast.error("Question asked before.");
+        setSimilarQLink(questionResponse.data.similarQuestions[0].id);
+        console.log(questionResponse.data.similarQuestions);
+      } else if (questionResponse?.status === 403) {
+        toast.error("Not Autherized.");
       } else {
-        toast.error(questionResponse?.data.message);
+        toast.error("Something went wrong.");
       }
       // clear all fields
     }
@@ -77,6 +88,20 @@ export default function AddQuestionForm() {
         <h2 className="text-2xl font-semibold leading-none tracking-tight text-center">
           Add Question
         </h2>
+        {similarQLink && (
+          <Alert variant="destructive">
+            <AlertTitle>Similar Question</AlertTitle>
+            <AlertDescription>
+              Question has been asked before.{" "}
+              <Link
+                className="underline text-blue-500"
+                href={"/question/" + similarQLink}
+              >
+                link
+              </Link>
+            </AlertDescription>
+          </Alert>
+        )}
         <FormField
           control={form.control}
           name="category"

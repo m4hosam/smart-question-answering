@@ -1,7 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Image from "next/image";
+import Link from "next/link";
 import { FileInput, Label } from "flowbite-react";
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -16,7 +18,7 @@ export default function UploadQuestionForm() {
   const { data: session, status } = useSession();
 
   const [image, setImage] = useState<File | null>(null); // Store image as a file object
-
+  const [similarQLink, setSimilarQLink] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +55,12 @@ export default function UploadQuestionForm() {
         if (questionResponse?.status === 200) {
           toast.success("Question added successfully.");
           setImage(null);
+        } else if (questionResponse?.status === 409) {
+          toast.error("Question asked before.");
+          setSimilarQLink(questionResponse.data.similarQuestions[0].id);
+          console.log(questionResponse.data.similarQuestions);
+        } else if (questionResponse?.status === 403) {
+          toast.error("Not Autherized.");
         } else {
           toast.error("Error in saving question.");
         }
@@ -70,6 +78,20 @@ export default function UploadQuestionForm() {
       <h2 className="text-2xl font-semibold leading-none tracking-tight text-center">
         Upload Question
       </h2>
+      {similarQLink && (
+        <Alert variant="destructive">
+          <AlertTitle>Similar Question</AlertTitle>
+          <AlertDescription>
+            Question has been asked before.{" "}
+            <Link
+              className="underline text-blue-500"
+              href={"/question/" + similarQLink}
+            >
+              link
+            </Link>
+          </AlertDescription>
+        </Alert>
+      )}
       <div className="flex w-full items-center justify-center">
         <Label
           htmlFor="dropzone-file"
