@@ -114,7 +114,7 @@ const MyQuestionCard: React.FC<QuestionCardProps> = ({
         </Dialog>
       </div>
       <Separator className="ml-auto mr-auto w-full " />
-      <h3 className="text-lg font-semibold">Q: {question}</h3>
+      <p className="text-lg font-medium">{question}</p>
       {/* Add the question choices here */}
       <ul>
         {choices.map((choice, index) => (
@@ -127,7 +127,7 @@ const MyQuestionCard: React.FC<QuestionCardProps> = ({
         ))}
       </ul>
       <p>
-        <span className="text-green-500	font-semibold">Answer:</span>{" "}
+        <span className="text-green-500	font-semibold">Cevap:</span>{" "}
         <span
           className={
             answerStatus === "Pending Answer"
