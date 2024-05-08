@@ -22,7 +22,7 @@ export default function NavbarStudent() {
     <Navbar fluid className="bg-[#14213d] min-h-16 pt-3">
       <Navbar.Brand href="/">
         <span className="self-center whitespace-nowrap text-xl font-semibold text-white">
-          Logo
+          Soru
         </span>
       </Navbar.Brand>
       <div className="flex md:order-2">
@@ -61,7 +61,7 @@ export default function NavbarStudent() {
           href={session?.user?.role === "teacher" ? "/teacher" : "/"}
           className="  text-white hover:text-cyan-400 hover:bg-cyan-800  "
         >
-          Home
+          Ana Sayfa
         </Navbar.Link>
         <Navbar.Link
           href={
@@ -71,7 +71,7 @@ export default function NavbarStudent() {
           }
           className="text-white hover:text-cyan-400 hover:bg-cyan-800"
         >
-          My Questions
+          Sorularım
         </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>

@@ -67,6 +67,7 @@ export default function AddQuestionForm() {
       if (questionResponse?.status === 200) {
         toast.success("Question added successfully.");
         form.reset();
+        router.refresh();
       } else if (questionResponse?.status === 409) {
         toast.error("Error Saving Question.");
         setSimilarQLink(questionResponse.data.similarQuestions[0].id);
@@ -90,13 +91,13 @@ export default function AddQuestionForm() {
         <Toaster position="bottom-right" reverseOrder={false} />
 
         <h2 className="text-2xl font-semibold leading-none tracking-tight text-center">
-          Add Question
+          Soru Ekle
         </h2>
         {similarQLink && (
           <Alert variant="destructive">
-            <AlertTitle>Similar Question</AlertTitle>
+            <AlertTitle>benzer soru</AlertTitle>
             <AlertDescription>
-              Question has been asked before.{" "}
+              Soru daha önce soruldu.{" "}
               <Link
                 className="underline text-blue-500"
                 href={"/question/" + similarQLink}
@@ -111,7 +112,7 @@ export default function AddQuestionForm() {
           name="category"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Category</FormLabel>
+              <FormLabel>Sınıf</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
@@ -139,7 +140,7 @@ export default function AddQuestionForm() {
           name="question"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Question</FormLabel>
+              <FormLabel>Soru</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder="Enter your question."

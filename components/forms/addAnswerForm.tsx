@@ -18,7 +18,7 @@ import { useSession } from "next-auth/react";
 import { createAnswer } from "@/lib/answerController";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { CldUploadWidget } from "next-cloudinary";
 
 const FormSchema = z.object({
   answer: z.string({
@@ -83,9 +83,20 @@ export default function AddAnswerForm({ questionId }: { questionId: string }) {
             Submit
           </Button>
         )}
-        {/* <Button type="submit" className="px-3">
-          Submit
-        </Button> */}
+        <CldUploadWidget
+          uploadPreset="jsm_cevap"
+          onSuccess={(res) => {
+            console.log(res); // This will log the URL of the uploaded image
+          }}
+        >
+          {({ open }) => {
+            return (
+              <Button className=" bg-blue-500" onClick={() => open()}>
+                Upload
+              </Button>
+            );
+          }}
+        </CldUploadWidget>
       </form>
     </Form>
   );

@@ -87,7 +87,7 @@ export default function UploadQuestionForm() {
       <Toaster position="bottom-right" reverseOrder={false} />
 
       <h2 className="text-2xl font-semibold leading-none tracking-tight text-center">
-        Upload Question
+        Soru Yükle
       </h2>
       {similarQLink && (
         <Alert variant="destructive">
@@ -169,10 +169,10 @@ export default function UploadQuestionForm() {
                 fill="currentColor"
               />
             </svg>
-            <p className="text-white">Detecting Text...</p>
+            <p className="text-white"> Detecting Text...</p>
           </div>
         ) : (
-          "Upload"
+          "Yükle"
         )}
       </Button>
     </form>
