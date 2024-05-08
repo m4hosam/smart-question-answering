@@ -42,7 +42,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
     <Card className="w-full">
       <h3 className="text-sm">{category}</h3>
       <Separator className="ml-auto mr-auto w-full " />
-      <div className="w-full flex flex-row-reverse items-start gap-9">
+      <div className="w-full flex flex-col items-center lg:flex-row-reverse lg:items-start gap-9">
         <p className="text-sm md:text-base font-medium">{question}</p>
         {/* Add the question choices here */}
         {/* <ul>

@@ -58,7 +58,11 @@ export default function AddQuestionForm() {
       router.push("/account/login");
     } else {
       // add question
-      const userQuestion = { ...data, token: session.user.token };
+      const userQuestion = {
+        ...data,
+        question_image: "",
+        token: session.user.token,
+      };
       const questionResponse = await createQuestion(userQuestion);
       if (questionResponse?.status === 200) {
         toast.success("Question added successfully.");
