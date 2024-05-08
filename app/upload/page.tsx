@@ -6,21 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { FileInput, Label } from "flowbite-react";
 import toast, { Toaster } from "react-hot-toast";
-import {
-  createQuestion,
-  extractQurestionFromImage,
-} from "@/lib/questionController";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { revalidatePath } from "next/cache";
 import { cloudinary_upload } from "@/lib/cloudinary";
 
 export default function UploadQuestionForm() {
-  const router = useRouter();
-  const { data: session, status } = useSession();
-
   const [image, setImage] = useState<File | null>(null); // Store image as a file object
-  const [similarQLink, setSimilarQLink] = useState("");
+
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,48 +23,22 @@ export default function UploadQuestionForm() {
   };
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    if (!session) {
-      router.push("/account/login");
-    }
     e.preventDefault();
     if (!image) {
       toast.error("Please upload an image");
     } else {
       setLoading(true);
 
-      const extractionResponse = await extractQurestionFromImage(image);
-      if (extractionResponse?.status !== 200) {
-        console.log(extractionResponse?.data);
-        toast.error("Error in Extracting text.");
-        setLoading(false);
-      } else {
-        // uploading image to cloudinary and getting the url
-        // uploading image to cloudinary and getting the url
-        const cloudinaryResponse = await cloudinary_upload(image);
-        console.log(cloudinaryResponse.url);
-        // Extracted question succeeded
-        const userQuestion = {
-          ...extractionResponse?.data,
-          question_image: cloudinaryResponse.url,
-          token: session?.user.token as string,
-        };
-        console.log(userQuestion);
-        // saving the extracted question to the DB
-        const questionResponse = await createQuestion(userQuestion);
-        if (questionResponse?.status === 200) {
-          toast.success("Question added successfully.");
-          setImage(null);
-        } else if (questionResponse?.status === 409) {
-          toast.error("Error Saving Question.");
-          setSimilarQLink(questionResponse.data.similarQuestions[0].id);
-          console.log(questionResponse.data.similarQuestions);
-        } else if (questionResponse?.status === 403) {
-          toast.error("Not Autherized.");
-        } else {
-          toast.error("Error in saving question.");
-        }
-      }
-      // revalidatePath("/", "page");
+      // uploading image to cloudinary and getting the url
+      const cloudinaryResponse = await cloudinary_upload(image);
+      console.log(cloudinaryResponse.url);
+      //   const arrayBuffer = await image.arrayBuffer();
+      //   const buffer = Buffer.from(arrayBuffer);
+      //   const cloudinaryResponse =
+      //     await cloudinary.uploader.unsigned_upload_stream(buffer, {
+      //       upload_preset: "jsm_sorular",
+      //     });
+
       setLoading(false);
     }
   };
@@ -88,20 +52,7 @@ export default function UploadQuestionForm() {
       <h2 className="text-2xl font-semibold leading-none tracking-tight text-center">
         Upload Question
       </h2>
-      {similarQLink && (
-        <Alert variant="destructive">
-          <AlertTitle>Similar Question</AlertTitle>
-          <AlertDescription>
-            Question has been asked before.{" "}
-            <Link
-              className="underline text-blue-500"
-              href={"/question/" + similarQLink}
-            >
-              link
-            </Link>
-          </AlertDescription>
-        </Alert>
-      )}
+
       <div className="flex w-full items-center justify-center">
         <Label
           htmlFor="dropzone-file"

@@ -11,6 +11,7 @@ export type Question = {
   id: string;
   question: string;
   category: string;
+  questionImage: string;
   status: string;
   userId: string;
   createdAt: string;

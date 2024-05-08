@@ -1,8 +1,9 @@
-import axios, { AxiosResponse, AxiosError } from "axios";
+import axios from "axios";
 
 export async function createQuestion(userQuestion: {
   category: string;
   question: string;
+  question_image: string;
   token: string;
 }) {
   try {
