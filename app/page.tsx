@@ -5,6 +5,7 @@ import { getAllQuestions } from "@/lib/questionController";
 
 export default async function Home() {
   const questionsResponse = await getAllQuestions();
+
   let questions: Question[] = [];
   if (questionsResponse?.status === 200) {
     questions = questionsResponse.data;
