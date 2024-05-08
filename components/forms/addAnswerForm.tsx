@@ -2,7 +2,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import React from "react";
+import React, { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import { useSession } from "next-auth/react";
 import { createAnswer } from "@/lib/answerController";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 const FormSchema = z.object({
   answer: z.string({
@@ -27,7 +28,7 @@ const FormSchema = z.object({
 
 export default function AddAnswerForm({ questionId }: { questionId: string }) {
   // state to hold loading status
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -58,7 +59,7 @@ export default function AddAnswerForm({ questionId }: { questionId: string }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex items-center space-x-2"
+        className="flex w-full items-center space-x-2"
       >
         <Toaster position="bottom-center" reverseOrder={false} />
         <FormField
@@ -66,8 +67,7 @@ export default function AddAnswerForm({ questionId }: { questionId: string }) {
           name="answer"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Answer</FormLabel>
-              <FormControl className="grid flex-1 gap-2">
+              <FormControl className=" grid flex-1 gap-2">
                 <Textarea placeholder="Type your answer here." {...field} />
               </FormControl>
               <FormMessage />

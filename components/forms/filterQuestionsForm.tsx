@@ -73,6 +73,7 @@ export default function FilterQuestionsForm({ questions }: any) {
             question_id={question.id}
             question={question.question}
             category={question.category}
+            image={question.questionImage}
           />
         ))}
       </div>
