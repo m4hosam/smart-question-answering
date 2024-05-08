@@ -75,6 +75,7 @@ export default function UploadQuestionForm() {
         }
       }
       // revalidatePath("/", "page");
+      router.refresh();
       setLoading(false);
     }
   };

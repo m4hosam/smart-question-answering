@@ -23,6 +23,7 @@ interface QuestionCardProps {
   question: string;
   answer: Answer[];
   category: string;
+  image: string;
 }
 
 const MyQuestionCard: React.FC<QuestionCardProps> = ({
@@ -30,28 +31,29 @@ const MyQuestionCard: React.FC<QuestionCardProps> = ({
   question,
   answer,
   category,
+  image,
 }) => {
   const { data: session } = useSession();
   const router = useRouter();
   // Regex to match the question and the multiple choice answers
-  const regex =
-    /(.*?)\s+([A-a][\)-\-])\s*(.*?)\s+([B-b][\)-\-])\s*(.*?)\s+([C-c][\)-\-])\s*(.*?)\s+([D-d][\)-\-])\s*(.*?)\s+([E-e][\)-\-])\s*(.*?)$/;
-  // Extracting question and answers
-  const match = question.match(regex);
-  //   console.log(match);
-  let choices = [];
-  if (match) {
-    // Extracting question and answers
-    question = match[1];
+  // const regex =
+  //   /(.*?)\s+([A-a][\)-\-])\s*(.*?)\s+([B-b][\)-\-])\s*(.*?)\s+([C-c][\)-\-])\s*(.*?)\s+([D-d][\)-\-])\s*(.*?)\s+([E-e][\)-\-])\s*(.*?)$/;
+  // // Extracting question and answers
+  // const match = question.match(regex);
+  // //   console.log(match);
+  // let choices = [];
+  // if (match) {
+  //   // Extracting question and answers
+  //   question = match[1];
 
-    // Extracting choices with their letters
-    for (let i = 2; i < match.length; i += 2) {
-      choices.push({
-        label: match[i].replace(")", ""), // Extracting choice letter
-        text: match[i + 1],
-      });
-    }
-  }
+  //   // Extracting choices with their letters
+  //   for (let i = 2; i < match.length; i += 2) {
+  //     choices.push({
+  //       label: match[i].replace(")", ""), // Extracting choice letter
+  //       text: match[i + 1],
+  //     });
+  //   }
+  // }
 
   const handleDelete = async () => {
     console.log("Delete button clicked");
@@ -114,18 +116,24 @@ const MyQuestionCard: React.FC<QuestionCardProps> = ({
         </Dialog>
       </div>
       <Separator className="ml-auto mr-auto w-full " />
-      <p className="text-lg font-medium">{question}</p>
-      {/* Add the question choices here */}
-      <ul>
+      <div className="w-full flex flex-col items-center lg:flex-row-reverse lg:items-start gap-9">
+        <p className="text-lg font-medium">{question}</p>
+        {/* Add the question choices here */}
+        {/* <ul>
         {choices.map((choice, index) => (
           <li
-            key={index}
-            className="bg-gray-100 hover:bg-gray-50 p-3 my-2 rounded-md"
+          key={index}
+          className="bg-gray-100 hover:bg-gray-50 p-3 my-2 rounded-md"
           >
-            <span className="text-gray-400">{choice.label}.</span> {choice.text}
+          <span className="text-gray-400">{choice.label}.</span> {choice.text}
           </li>
         ))}
-      </ul>
+      </ul> */}
+        {/* Displaying the question image */}
+        {image && (
+          <img src={image} alt="question" className="h-48 object-contain" />
+        )}
+      </div>
       <p>
         <span className="text-green-500	font-semibold">Cevap:</span>{" "}
         <span

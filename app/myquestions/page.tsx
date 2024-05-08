@@ -25,6 +25,7 @@ export default async function MyQuestions() {
             question={question.question}
             answer={question.Answer}
             category={question.category}
+            image={question.questionImage}
           />
         ))}
       </div>
