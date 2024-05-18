@@ -3,11 +3,15 @@ import axios, { AxiosResponse, AxiosError } from "axios";
 export async function createAnswer(
   answer: {
     answer: string;
+    answer_image?: string;
     question_id: string;
   },
   token: string
 ) {
   try {
+    console.log(answer);
+    console.log(token);
+
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}answer`,
       answer,

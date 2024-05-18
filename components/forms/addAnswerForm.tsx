@@ -2,9 +2,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -29,6 +28,7 @@ const FormSchema = z.object({
 export default function AddAnswerForm({ questionId }: { questionId: string }) {
   // state to hold loading status
   const [loading, setLoading] = useState(false);
+  // create state for image url as string
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -36,11 +36,17 @@ export default function AddAnswerForm({ questionId }: { questionId: string }) {
       answer: "",
     },
   });
-  const { data: session } = useSession();
+  const { data: userSession } = useSession();
+  // const [session, setSession] = useState(userSession);
+  // // console.log(userSession);
+
+  // useEffect(() => {
+  //   setSession(userSession);
+  // }, [userSession]);
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     const teacherAnswer = { ...data, question_id: questionId };
-    const userToken = session?.user?.token || "";
+    const userToken = userSession?.user?.token || "";
     // console.log(teacherAnswer);
     // console.log(session?.user?.token);
     // create answer
@@ -55,6 +61,33 @@ export default function AddAnswerForm({ questionId }: { questionId: string }) {
       toast.error(response?.data.message);
     }
   }
+
+  async function onUploadSuccess(res: any) {
+    const answer_image = res?.info.secure_url;
+    console.log(res?.info.secure_url); // This will log the URL of the uploaded image
+
+    const teacherAnswer = {
+      answer: "Görsel",
+      question_id: questionId,
+      answer_image,
+    };
+    console.log(teacherAnswer);
+    const userToken = userSession?.user?.token || "";
+
+    console.log("token ", userToken);
+    // create answer
+    // setLoading(true);
+    const response = await createAnswer(teacherAnswer, userToken);
+    // setLoading(false);
+    if (response?.status === 200) {
+      toast.success("Answer added successfully.");
+      form.reset();
+      router.refresh();
+    } else {
+      toast.error(response?.data.message);
+    }
+  }
+
   return (
     <Form {...form}>
       <form
@@ -75,7 +108,7 @@ export default function AddAnswerForm({ questionId }: { questionId: string }) {
           )}
         />
         {loading ? (
-          <Button type="submit" className="px-3" disabled>
+          <Button className="px-3" disabled>
             Loading...
           </Button>
         ) : (
@@ -83,20 +116,26 @@ export default function AddAnswerForm({ questionId }: { questionId: string }) {
             Submit
           </Button>
         )}
-        <CldUploadWidget
-          uploadPreset="jsm_cevap"
-          onSuccess={(res) => {
-            console.log(res); // This will log the URL of the uploaded image
-          }}
-        >
-          {({ open }) => {
-            return (
-              <Button className=" bg-blue-500" onClick={() => open()}>
-                Upload
-              </Button>
-            );
-          }}
-        </CldUploadWidget>
+        {userSession && (
+          <CldUploadWidget
+            uploadPreset="jsm_cevap"
+            onSuccess={(res) => {
+              onUploadSuccess(res);
+            }}
+          >
+            {({ open }) => {
+              return (
+                <Button
+                  type="button"
+                  className=" bg-blue-500"
+                  onClick={() => open()}
+                >
+                  Upload
+                </Button>
+              );
+            }}
+          </CldUploadWidget>
+        )}
       </form>
     </Form>
   );
