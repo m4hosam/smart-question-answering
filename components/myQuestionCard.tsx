@@ -18,6 +18,7 @@ import { deleteQuestion } from "@/lib/questionController";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
+import Image from "next/image";
 interface QuestionCardProps {
   question_id: string;
   question: string;
@@ -74,6 +75,11 @@ const MyQuestionCard: React.FC<QuestionCardProps> = ({
   };
 
   let answerStatus = answer.length === 0 ? "Pending Answer" : answer[0].answer;
+  // if answer status is pendingAnswer or answer[0].answerImage='' then answerImageStatus is false
+  let hasAnswerImage = false;
+  if (answer.length !== 0 && answer[0].answerImage !== "") {
+    hasAnswerImage = true;
+  }
 
   return (
     <Card className="w-full">
@@ -134,18 +140,40 @@ const MyQuestionCard: React.FC<QuestionCardProps> = ({
           <img src={image} alt="question" className="h-48 object-contain" />
         )}
       </div>
-      <p>
-        <span className="text-green-500	font-semibold">Cevap:</span>{" "}
-        <span
-          className={
-            answerStatus === "Pending Answer"
-              ? "text-red-500 font-semibold"
-              : "text-gray-900 font-semibold"
-          }
-        >
-          {answerStatus}
-        </span>
-      </p>
+      <section className="flex w-full items-center justify-between">
+        <p>
+          <span className="text-green-500	font-semibold">Cevap:</span>{" "}
+          <span
+            className={
+              answerStatus === "Pending Answer"
+                ? "text-red-500 font-semibold"
+                : "text-gray-900 font-semibold"
+            }
+          >
+            {answerStatus}
+          </span>
+        </p>
+
+        {hasAnswerImage && (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="w-48 bg-blue-700 hover:bg-blue-500">
+                Cevabı Göster
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Question&apos;s Image</DialogTitle>
+              </DialogHeader>
+              <img
+                src={answer[0].answerImage}
+                alt="answer"
+                className="h-48 object-contain"
+              />
+            </DialogContent>
+          </Dialog>
+        )}
+      </section>
     </Card>
   );
 };

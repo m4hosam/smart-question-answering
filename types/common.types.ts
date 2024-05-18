@@ -1,6 +1,7 @@
 export type Answer = {
   id: string;
   answer: string;
+  answerImage: string;
   questionId: string;
   userId: string;
   createdAt: string;
